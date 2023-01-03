@@ -45,7 +45,7 @@ contract VolcanoCoin{
 
     function paymentReconds(uint256 addpeople) public view returns{
 
-        payment = msg.sender
+       payment = msg.sender
        paymentrecont (payment(receiver address))
 
        emit event recond ("paymentReconds update)
