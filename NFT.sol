@@ -50,6 +50,13 @@ contract NFT  is ERC721URIStorage, Ownable{
   }
 
 
+  struct VerifiedCredit{
+    address verifierAdd;
+    uint amount;
+    string verifierName;
+  }
+
+
 
   
 
