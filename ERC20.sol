@@ -11,9 +11,20 @@ constract ERC20  is ERC20,payable,transfarable{
  address public royaltyAddress;
  uint256 public royaltyAmount;
 
- constructor ()
+  function modifier(){
+    if(msg.sender == owner){
+        _;
+    }
+  }
+
+ constructor (){
+msg.sender = owner};
+
+mapping (address => uint256)  balances 
 
  }
 
 
-}
+ 
+
+
