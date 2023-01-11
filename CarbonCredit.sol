@@ -121,3 +121,159 @@ function getCreditHolders()public view returns(CarbonCreditHolder[]memory){
 
    }
 
+
+
+
+//token
+
+Skip to content
+CarbonCreditProject
+/
+Carbon-Project
+Public
+Code
+Issues
+1
+Pull requests
+Actions
+Projects
+More
+Carbon-Project/credittoken.sol
+@peternderitu
+peternderitu Update credittoken.sol
+ History
+ 1 contributor
+66 lines (61 sloc)  2.46 KB
+pragma solidity ^0.6.0;
+pragma experimental ABIEncoderV2;
+
+import './carboncredits.sol';
+import 'https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol';
+
+//SPDX-License-Identifier: UNLICENSED
+contract CreditToken is CarbonCredits,ERC20{
+    uint totalsupply;
+    uint supply;
+    uint tokenBurnedCount =0;
+    uint8 private _decimals;
+    
+    constructor() ERC20("Carbon", "C") public {
+        _setupDecimals(0);
+    }
+    mapping(address => uint) public BalanceOf;
+    mapping(address => uint) public approvedCredits;
+    mapping(address => uint) public tokensApprovedForBurn;
+    modifier onlyVerifier() {
+        require(msg.sender == verifiers[verifiercount].addr);
+        _;
+    }
+    modifier onlyCreditHolder() {
+        require(msg.sender == CreditHolders[totalRegistered]._addr);
+        _;
+    }
+    function approveCreditsHeld(address _holder) public onlyVerifier{
+        uint cred = CreditHolders[totalRegistered].creditsHeld;
+        approvedCredits[_holder]+= cred;
+    }
+
+    function createCarbonToken() public onlyCreditHolder() returns(uint) {
+        address Owner = CreditHolders[totalRegistered]._addr;
+        supply = approvedCredits[Owner];
+        totalsupply = totalsupply.add(supply);
+        BalanceOf[Owner] = BalanceOf[Owner].add(supply);
+        _mint(msg.sender, supply);
+        return totalsupply;
+    }
+    function transferCredits(address to, uint value) public  onlyCreditHolder() {
+        _transfer(msg.sender, to, value);
+        BalanceOf[msg.sender] = BalanceOf[msg.sender].sub(value);
+        BalanceOf[to] = BalanceOf[to].add(value);
+    }
+    function transferCreditsFrom(address from, address to, uint value) public {
+        transferFrom(from, to, value);
+        BalanceOf[from] = BalanceOf[from].sub(value);
+        BalanceOf[to] = BalanceOf[to].add(value);
+    }
+    function approveBurn(uint carbonTokens, address holder) public onlyVerifier{
+        tokensApprovedForBurn[holder]+=carbonTokens;
+    }
+    function burnTokens() public onlyOwner() returns(bool) {
+        _burn(msg.sender, tokensApprovedForBurn[msg.sender]);
+        totalsupply = totalsupply.sub(tokensApprovedForBurn[msg.sender]);
+        BalanceOf[msg.sender] = BalanceOf[msg.sender].sub(tokensApprovedForBurn[msg.sender]);
+        return true;
+    }
+    function buyCarbonCredits(uint amount) public payable {
+        uint value = amount * 1;
+        require(msg.value > 0);
+        transferCreditsFrom(address(this),msg.sender, value);
+        }
+
+}
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Carbon-Project/credittoken.sol at main · CarbonCreditProject/Carbon-Project
+
+
+
+
+//certification 
+
+pragma solidity ^0.6.0;
+pragma experimental ABIEncoderV2;
+
+import './credittoken.sol';
+
+//SPDX-License-Identifier: UNLICENSED
+contract Certification is CreditToken {
+    constructor() public { }
+    string public constant _name = 'Gold Standard';
+    string public constant _symbol = 'GS';
+    
+  mapping (uint => address) internal idToOwner;
+  mapping (uint => address) internal idToApproval;
+  mapping (address => uint) private ownerToNFTokenCount;
+  mapping (address => uint) public burnedTokens;
+  
+  function addBurnedTokens(address holder) public {
+    if (burnTokens() == true) {
+        uint burnedtok = tokensApprovedForBurn[holder];
+        burnedTokens[holder]+=burnedtok;
+    }
+  }
+
+    function mint(address _to,uint256 _tokenId) internal virtual
+  {
+    require(_to != address(0), "ZERO_ADDRESS");
+    require(idToOwner[_tokenId] == address(0), "NFT_ALREADY_EXISTS");
+    require(burnedTokens[_to] > 20);
+
+    _addNFToken(_to, _tokenId);
+
+    emit Transfer(address(0), _to, _tokenId);
+  }
+  function _addNFToken(
+    address _to,
+    uint256 _tokenId
+  )
+    internal
+    virtual
+  {
+    require(idToOwner[_tokenId] == address(0), "NFT_ALREADY_EXISTS");
+
+    idToOwner[_tokenId] = _to;
+    ownerToNFTokenCount[_to] = ownerToNFTokenCount[_to].add(1);
+  }
+}
