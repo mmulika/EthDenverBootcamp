@@ -11,6 +11,8 @@ contract CarbonCredit  is Ownable{
     uint verifiercount = 0;
     uint customercount = 0;
 
+
+//struct object to represent CreditHolder such an  RRD+ eg masai mara
     struct CarbonCreditHolder{
         string name;
         uint id;
@@ -22,6 +24,9 @@ contract CarbonCredit  is Ownable{
 
 
     }
+
+
+    //strcut to represent   a carborn credit verifier such as VERA
 
     struct verifier{
 
@@ -35,6 +40,8 @@ contract CarbonCredit  is Ownable{
 
     }
 
+    //struct to reprsent customer anyone wiling to offset
+
     struct customer{
         string first_name;
         string last_name;
@@ -43,14 +50,20 @@ contract CarbonCredit  is Ownable{
         uint _id;
     }
 
+
+    //mapping of structs 
     mapping (uint =>CarbonCreditHolder) public CreditHolders;
     mapping (uint => verifier) public verifiers;
     mapping (uint=> customer) public customers;
 
+
+   //declaration of events
    event newCreditHolder(string name,uint holderId, uint creditsHeld,uint pricepercredit,uint creditvalidityperiod,address _add);
    event newCustomer(string first_name, string last_name,string email, uint contact, uint _id);
    event newVerifier(string name,  string homeCountry, uint reg_no, uint liences_no, address addr);
 
+
+//registering a  carbon creditholder body such as a forest reserves
    function  registerCreditHolder(string memory name, uint holderId,uint creditsHeld,uint pricepercredit,uint creditvalidityperiod)public{
        totalRegistered++;
        CreditHolders[totalRegistered] = CarbonCreditHolder(
