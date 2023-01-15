@@ -37,4 +37,13 @@ contract WeastContract{
           );
       }
 
+      function getCollector()public view returns(Collector[]memory){
+          Collector[] memory ret = new Collector[](totalGabage);
+          for( uint i = 0; i < totalGabage; i++){
+              ret[i] = Collectors[i];
+
+          }
+          return ret;
+      }
+
 }
