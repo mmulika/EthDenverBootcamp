@@ -26,6 +26,14 @@ contract WeastContract{
      uint256 validityPeriod;
 
  }
+ 
+ struct  forest{
+    uint  reg;
+    uint size;
+    string location;
+    uint contact;
+
+ }
 
     //event
 
