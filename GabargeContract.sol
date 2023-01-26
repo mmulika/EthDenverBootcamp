@@ -82,7 +82,7 @@ contract WeastContract{
       }
 
      function  Collectors() public view  returns(collector[]memory){
-      return collector
+      return collector;
 
 
      }
