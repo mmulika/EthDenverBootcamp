@@ -112,3 +112,31 @@ const contractAddress = '0x5B38Da6a701c568545dCfcB03FcB875f56beddC4';
 const contract = new web3.eth.Contract(contractABI, contractAddress);
 console.log(contract)
 
+//function to list all functions
+
+contractABI.forEach(function(json){
+    console.log(json.name)
+})
+
+
+const contractFunctions = contract._jsonInterface;
+contractFunctions.forEach(function(json) {
+    console.log(json.name);
+})
+
+contract.methods.getData().call((err, result) => {
+    if (err) {
+        console.error(err);
+    } else {
+        console.log(result);
+    }
+});
+
+
+contract.methods.setData("data").send({from: '0xYourAddress'})
+.then((receipt) => {
+  console.log(receipt);
+});
+
+
+//todo read on contract methods
