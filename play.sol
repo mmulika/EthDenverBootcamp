@@ -13,4 +13,11 @@ contract EarnAsYouPlay {
         msg.sender.transfer(reward);
         points[msg.sender] -= reward;
     }
+
+    struct user{
+        uint256 id,
+        string name,
+        uint256 amount
+        
+
 }
