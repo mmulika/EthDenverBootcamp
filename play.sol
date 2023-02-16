@@ -20,4 +20,28 @@ contract EarnAsYouPlay {
         uint256 amount
         
 
+        function buyProduct(productId, quantity, paymentInfo) {
+  return new Promise((resolve, reject) => {
+    // make an HTTP POST request to the server to buy the product
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/buy');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          // the purchase was successful
+          const response = JSON.parse(xhr.responseText);
+          resolve(response);
+        } else {
+          // there was an error purchasing the product
+          reject(new Error('Unable to purchase product'));
+        }
+      }
+    };
+    const data = { productId: productId, quantity: quantity, paymentInfo: paymentInfo };
+    xhr.send(JSON.stringify(data));
+  });
+}
+
+
 }
