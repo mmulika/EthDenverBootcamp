@@ -21,6 +21,14 @@ contract CarbonCreditToken{
 
 
 
+
+
+struct Email{
+    uint balance;
+    string name;
+}
+ mapping ( uint  => Email)
+
    modifier ownerOnly{
        if(msg.sender == owner){
            _;
