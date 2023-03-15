@@ -19,7 +19,10 @@ contract CarbonCreditToken{
         uint ID;
     }
 
-
+struct Army{
+    string name;
+    uint  IDs
+}
 
 
 
