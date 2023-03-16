@@ -25,6 +25,11 @@ struct Army{
 }
 
 
+struct kenya{
+    uint ID;
+    uint pin;
+    string name;
+}
 
 struct Email{
     uint balance;
