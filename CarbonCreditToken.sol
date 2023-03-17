@@ -31,6 +31,8 @@ struct kenya{
     string name;
 }
 
+mapping  (uint -> kenya) balance
+
 struct Email{
     uint balance;
     string name;
