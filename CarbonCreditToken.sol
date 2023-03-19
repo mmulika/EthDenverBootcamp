@@ -31,6 +31,12 @@ struct kenya{
     string name;
 }
 
+
+struct salary{
+    uint amount;
+    string job;
+    uint  net;
+}
 mapping  (uint -> kenya) balance
 
 struct Email{
