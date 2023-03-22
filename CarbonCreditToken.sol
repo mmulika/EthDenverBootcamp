@@ -37,6 +37,11 @@ struct salary{
     string job;
     uint  net;
 }
+string vehicle{
+    uint number;
+    string model;
+    
+}
 
 mapping (uint -> salary) ear/// @notice Explain to an end user what this does
 /// @dev Explain to a developer any extra details
